@@ -65,7 +65,8 @@ function App() {
           <Route
             path='/'
             element={
-              <HomePage user={user} admin={admin} />
+              user ?
+                <HomePage user={user} admin={admin} /> : <Navigate to='/login' />
             }
           />
           <Route

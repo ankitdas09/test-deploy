@@ -9,7 +9,7 @@ const AdminShowPatients = ({ patients, search }) => {
             {filteredList.length ?
                 filteredList.map((patient, idx) => {
                     return (
-                        <div className='col-lg-6 mb-2'>
+                        <div className='col-lg-6 mb-2' key={idx}>
                             <div className="card h-100">
                                 <div className="card-body">
                                     <div className="row">

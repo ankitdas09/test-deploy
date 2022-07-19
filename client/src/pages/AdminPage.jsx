@@ -8,17 +8,20 @@ const AdminPage = ({ user }) => {
     const [patients, setPatients] = useState(null)
     const [error, setError] = useState(null)
 
-    useEffect(() => async () => {
-        const resp = await getSchema()
-        setData({
-            age: resp.age,
-            weight: resp.weight,
-            height: resp.height,
-            bloodSugar: resp.bloodSugar
-        })
+    useEffect(() => {
+        const handleGetSchema = async () => {
+            const resp = await getSchema()
+            setData({
+                age: resp.age,
+                weight: resp.weight,
+                height: resp.height,
+                bloodSugar: resp.bloodSugar
+            })
+        }
+        handleGetSchema()
     }, [])
 
-    useEffect(() => async () => {
+    useEffect(() => {
         handleRefresh()
     }, [])
 
@@ -43,6 +46,7 @@ const AdminPage = ({ user }) => {
     }
 
     const [search, setSearch] = useState('')
+
     const handleSearch = (e) => {
         setSearch(e.target.value)
     }
