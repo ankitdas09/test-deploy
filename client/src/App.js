@@ -13,18 +13,27 @@ axios.defaults.withCredentials = true
 
 function App() {
 
-  const getAuth = async () => {
-    try {
-      const resp = await axios.get('/auth/login/success')
-      setUser(resp.data.user._json)
-    } catch (error) {
-      setUser(null)
-    }
-  }
+  // const getAuth = async () => {
+  //   try {
+  //     const resp = await axios.get('/auth/login/success')
+  //     setUser(resp.data.user._json)
+  //   } catch (error) {
+  //     setUser(null)
+  //   }
+  // }
 
   const [user, setUser] = useState(null)
-  useEffect(() => async () => getAuth()
-    , [])
+  useEffect(() => {
+    const getAuth = async () => {
+      try {
+        const resp = await axios.get('/auth/login/success')
+        setUser(resp.data.user._json)
+      } catch (error) {
+        setUser(null)
+      }
+    }
+    getAuth()
+  }, [])
 
 
   const [admin, setAdmin] = useState(false)
