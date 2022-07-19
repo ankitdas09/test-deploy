@@ -43,7 +43,6 @@ const AdminPage = ({ user }) => {
     }
 
     const [search, setSearch] = useState('')
-    let filteredList = patients
     const handleSearch = (e) => {
         setSearch(e.target.value)
     }

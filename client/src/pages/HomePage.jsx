@@ -1,6 +1,6 @@
 import PatientForm from "../components/PatientForm.component"
 import UserInfo from "../components/UserInfo.component"
-
+import { Link } from "react-router-dom"
 const HomePage = ({ user, admin }) => {
 
     return (
