@@ -6,6 +6,7 @@ const cookieSession = require('cookie-session')
 const passport = require('passport')
 const GoogleStrat = require('./passport/passport.config')
 const bodyParser = require('body-parser')
+const path = require('path')
 
 const authRoutes = require('./routes/auth.routes')
 const formRoutes = require('./routes/form.routes')
