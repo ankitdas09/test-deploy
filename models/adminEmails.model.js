@@ -1,2 +1,2 @@
-const admin = ['ankit.99d@gmail.com']
+const admin = ['ankit.99d@gmail.com', 'abeerchakraborty2003@gmail.com']
 module.exports = admin
