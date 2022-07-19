@@ -13,14 +13,7 @@ axios.defaults.withCredentials = true
 
 function App() {
 
-  // const getAuth = async () => {
-  //   try {
-  //     const resp = await axios.get('/auth/login/success')
-  //     setUser(resp.data.user._json)
-  //   } catch (error) {
-  //     setUser(null)
-  //   }
-  // }
+
 
   const [user, setUser] = useState(null)
   useEffect(() => {
@@ -33,7 +26,8 @@ function App() {
       }
     }
     getAuth()
-  }, [])
+  }
+    , [])
 
 
   const [admin, setAdmin] = useState(false)
@@ -59,14 +53,15 @@ function App() {
 
   return (
     <>
-      <NavBar handleLogout={handleLogout} user={user} admin={admin} />
       <Router>
+        <NavBar handleLogout={handleLogout} user={user} admin={admin} />
         <Routes>
           <Route
             path='/'
             element={
               user ?
-                <HomePage user={user} admin={admin} /> : <Navigate to='/login' />
+                <HomePage user={user} admin={admin} />
+                : <Navigate to='/login' />
             }
           />
           <Route

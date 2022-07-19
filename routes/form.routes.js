@@ -26,6 +26,16 @@ const calcIndex = (idx) => {
     return ((currForm['weight'] * indexSchema['weight']) + (currForm['height'] * indexSchema['height']) + (currForm['age'] * indexSchema['age']) + (currForm['bloodSugar'] * indexSchema['bloodSugar'])) / 4
 }
 
+router.get('/', (req, res) => {
+    const { email } = req.user._json
+    const _patients = patients.filter(patient => patient.email == email)
+    let data = _patients.map((patient, idx) => {
+        index = calcIndex(idx)
+        return { ...patient, index: index }
+    })
+    res.send(data)
+})
+
 router.post('/', isAuthenticated, catchAsync(async (req, res, next) => {
     const value = await patientSchemaValidation.validateAsync(req.body)
     patients.push(value)

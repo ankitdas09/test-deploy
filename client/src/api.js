@@ -1,6 +1,6 @@
 import axios from "axios"
 axios.defaults.withCredentials = true
-const serverURL = ''
+const serverURL = 'http://localhost:8000'
 
 export const postForm = async (data) => {
     try {
@@ -54,6 +54,18 @@ export const postSchema = async (data) => {
         return error.response.data
     }
 }
+
+export const getMyPatients = async () => {
+    try {
+        const resp = await axios.get('/forms')
+        // console.log(resp.data)
+        return resp.data
+    } catch (error) {
+        console.log(error)
+        return null
+    }
+}
+
 export const getAllPatients = async () => {
     try {
         const resp = await axios.get('/forms/all')

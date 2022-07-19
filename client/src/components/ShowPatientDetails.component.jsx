@@ -1,15 +1,16 @@
 import React from 'react'
 
-const AdminShowPatients = ({ patients, search }) => {
-    let filteredList = patients.filter(patient => {
+const ShowPatientDetails = ({ patients, search, colWidth }) => {
+    let filteredList = patients ? patients.filter(patient => {
         return patient.name.toLowerCase().indexOf(search.toLowerCase()) !== -1
-    })
+    }) : null
+    const toRender = filteredList ? filteredList.length : 0
     return (
         <>
-            {filteredList.length ?
+            {toRender ?
                 filteredList.map((patient, idx) => {
                     return (
-                        <div className='col-lg-6 mb-2' key={idx}>
+                        <div className={`col-lg-${colWidth} mb-2`} key={idx}>
                             <div className="card h-100">
                                 <div className="card-body">
                                     <div className="row">
@@ -67,4 +68,4 @@ const AdminShowPatients = ({ patients, search }) => {
     )
 }
 
-export default AdminShowPatients
+export default ShowPatientDetails

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getSchema, postSchema, getAllPatients } from '../api'
 import { Link } from 'react-router-dom'
-import AdminShowPatients from '../components/AdminShowPatients.component'
+import ShowPatientDetails from '../components/ShowPatientDetails.component'
 const AdminPage = ({ user }) => {
 
     const [data, setData] = useState(null)
@@ -128,7 +128,7 @@ const AdminPage = ({ user }) => {
                         </div>
                     </div>
                     <div className="row align-items-center mb-5">
-                        <AdminShowPatients patients={patients} search={search} />
+                        <ShowPatientDetails patients={patients} search={search} colWidth={6} />
                     </div>
                 </div>
                 : 'no data found'}
