@@ -42,9 +42,7 @@ function App() {
           <Route
             path='/'
             element={
-              user ?
-                <HomePage user={user} admin={admin} />
-                : <Navigate to='/login' />
+              <HomePage user={user} admin={admin} />
             }
           />
           <Route
