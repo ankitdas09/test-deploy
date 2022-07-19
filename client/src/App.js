@@ -38,9 +38,23 @@ function App() {
 
   const [admin, setAdmin] = useState(false)
 
-  useEffect(() => async () => {
-    const resp = await isAdminCheck()
-    setAdmin(resp)
+  useEffect(() => {
+    const isAdminCheck = async () => {
+      try {
+        const resp = await axios.get('/auth/admin/')
+        if (resp.data.admin === true) {
+          setAdmin(true)
+          return
+        } else {
+          setAdmin(false)
+          return
+        }
+      } catch (error) {
+        setAdmin(false)
+        return
+      }
+    }
+    isAdminCheck()
   }, [])
 
   return (
