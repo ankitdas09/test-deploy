@@ -1,6 +1,6 @@
 import axios from "axios"
 axios.defaults.withCredentials = true
-const serverURL = ''
+const serverURL = 'http://localhost:8000'
 
 export const postForm = async (data) => {
     try {
@@ -8,10 +8,10 @@ export const postForm = async (data) => {
             ...data
         })
         // console.log(resp.data)
-        return resp.data
+        return { ...resp.data, data: { error: false } }
     } catch (error) {
         // console.log(error.response.data)
-        return error.response.data
+        return error.response
     }
 }
 
@@ -72,7 +72,36 @@ export const getAllPatients = async () => {
         // console.log(resp.data)
         return resp.data
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return null
+    }
+}
+
+export const addNewUser = async (email) => {
+    try {
+        console.log(email)
+        const resp = await axios.post('/admin/users', { email: email })
+        return { ...resp.data, error: false }
+    } catch (error) {
+        return { ...error.response.data, error: true }
+    }
+}
+
+export const getResults = async () => {
+    try {
+        const resp = await axios.get('/admin/results')
+        console.log(resp.data)
+        return { ...resp.data, error: false }
+    } catch (error) {
+        return { ...error.response.data, error: true }
+    }
+}
+
+export const getAllUsers = async () => {
+    try {
+        const resp = await axios.get('/admin/users')
+        return resp.data
+    } catch (error) {
+        return { ...error.response.data, error: true }
     }
 }

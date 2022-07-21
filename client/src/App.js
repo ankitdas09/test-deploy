@@ -16,12 +16,16 @@ function App() {
 
 
   const [user, setUser] = useState(null)
+  const [error, setError] = useState(null)
+
   useEffect(() => {
     const getAuth = async () => {
       try {
         const resp = await axios.get('/auth/login/success')
+        setError(null)
         setUser(resp.data.user._json)
       } catch (error) {
+        setError(error.response.data.message)
         setUser(null)
       }
     }
@@ -69,7 +73,7 @@ function App() {
             element={
               user ?
                 <Navigate to='/' />
-                : <LoginPage handleLogin={handleLogin} />
+                : <LoginPage handleLogin={handleLogin} error={error} />
             }
           />
           <Route
