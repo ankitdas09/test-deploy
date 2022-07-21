@@ -7,9 +7,13 @@ const passport = require('passport')
 const GoogleStrat = require('./passport/passport.config')
 const bodyParser = require('body-parser')
 const path = require('path')
+const mongoose = require('mongoose')
+
+mongoose.connect(process.env.MONGO_URI).then(() => console.log('DB Connected'))
 
 const authRoutes = require('./routes/auth.routes')
 const formRoutes = require('./routes/form.routes')
+const adminRoutes = require('./routes/admin.routes')
 
 const app = express()
 app.use(bodyParser.json())
@@ -28,6 +32,7 @@ app.use(passport.session())
 
 app.use('/auth', authRoutes)
 app.use('/forms', formRoutes)
+app.use('/admin', adminRoutes)
 
 app.use((err, req, res, next) => {
     const { status = 500, message = 'Something went wrong!' } = err

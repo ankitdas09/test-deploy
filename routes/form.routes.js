@@ -5,68 +5,70 @@ const AppError = require('../utils/AppError')
 const catchAsync = require('../utils/catchAsync')
 const isAdmin = require('../middleware/isAdmin.middleware')
 
+const FormModel = require('../models/Form.model')
+const SchemaModel = require('../models/Schema.model')
+const EndUserModel = require('../models/EndUser.model')
+const ResultModel = require('../models/Result.model')
+
 const patientSchemaValidation = require('../models/validationSchemas/PatientValidationSchema')
 const indexSchemaValidation = require('../models/validationSchemas/IndexValidationSchema')
 
-const patients = [
-    { "email": "raveklaw914@gmail.com", "name": "test", "weight": 60, "age": 20, "height": 190, "bloodSugar": 89 },
-    { "email": "raveklaw914@gmail.com", "name": "test", "weight": 75, "age": 25, "height": 180, "bloodSugar": 99 }
-]
+const calculate = require('../calculate')
 
-let indexSchema = {
-    weight: 20,
-    height: 20,
-    age: 30,
-    bloodSugar: 30
-}
-
-const calcIndex = (idx) => {
-    currForm = patients[idx]
-    // console.log(currForm)
-    return ((currForm['weight'] * indexSchema['weight']) + (currForm['height'] * indexSchema['height']) + (currForm['age'] * indexSchema['age']) + (currForm['bloodSugar'] * indexSchema['bloodSugar'])) / 4
-}
-
-router.get('/', (req, res) => {
-    const { email } = req.user._json
-    const _patients = patients.filter(patient => patient.email == email)
-    let data = _patients.map((patient, idx) => {
-        index = calcIndex(idx)
-        return { ...patient, index: index }
-    })
-    res.send(data)
-})
+router.get('/', isAdmin, catchAsync(async (req, res) => {
+    const forms = await FormModel.find()
+    res.json(forms)
+}))
 
 router.post('/', isAuthenticated, catchAsync(async (req, res, next) => {
     const value = await patientSchemaValidation.validateAsync(req.body)
-    patients.push(value)
-    res.send(patients)
+    const newForm = new FormModel(value)
+    const schema = await SchemaModel.findOne()
+    await newForm.save()
+    const user = await EndUserModel.findOne({ email: req.user._json.email })
+    let submitted = user.submitted + 1
+    await EndUserModel.findByIdAndUpdate(user._id, { submitted: submitted })
+    const index = calculate(newForm, schema)
+    const toSend = { ...newForm['_doc'], index: index }
+    const newResult = new ResultModel({ value: index })
+    await newResult.save()
+    res.json(toSend)
 }))
 
-router.get('/schema', isAuthenticated, (req, res) => {
-    res.json(indexSchema)
-})
-
-router.post('/schema', isAdmin, catchAsync(async (req, res) => {
-    const data = req.body
-    const validData = await indexSchemaValidation.validateAsync(data)
-    indexSchema = { ...validData }
-    res.json(indexSchema)
+router.get('/schema', isAdmin, catchAsync(async (req, res) => {
+    const schema = await SchemaModel.findOne({}, { _id: 0, __v: 0 })
+    res.json(schema)
 }))
 
-router.get('/all', isAdmin, (req, res) => {
-    let data = patients.map((patient, idx) => {
-        index = calcIndex(idx)
-        return { ...patient, index: index }
-    })
-    res.json(data)
-})
+router.post('/schema', catchAsync(async (req, res) => {
+    const validData = await indexSchemaValidation.validateAsync(req.body)
+    const oldSchema = await SchemaModel.findOne()
+    if (!oldSchema) {
+        const schema = new SchemaModel(validData)
+        await schema.save()
+        res.json({ error: false, message: 'Schema Saved' })
+    } else {
+        const schema = await SchemaModel.findOneAndUpdate({ _id: oldSchema._id }, validData)
+        res.json({ error: false, message: 'Schema Saved' })
+    }
+    // indexSchema = { ...validData }
 
-router.get('/:id', isAdmin, (req, res) => {
+}))
+
+router.get('/all', isAdmin, catchAsync(async (req, res) => {
+    const forms = await FormModel.find()
+    res.json(forms)
+}))
+
+router.get('/:id', isAdmin, catchAsync(async (req, res) => {
+    // 62d7aeaf60cf2b0f9611c041
     const { id } = req.params
-    const currForm = patients[id]
-    const calc = calcIndex(id)
-    res.json({ ...currForm, index: calc })
-})
+    const form = await FormModel.findById(id)
+    const schema = await SchemaModel.findOne()
+    const index = calculate(form, schema)
+    const toSend = { ...form['_doc'], index: index }
+    res.json(toSend)
+}))
 
 
 module.exports = router
