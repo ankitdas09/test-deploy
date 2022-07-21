@@ -1,6 +1,6 @@
 import axios from "axios"
 axios.defaults.withCredentials = true
-const serverURL = 'http://localhost:8000'
+const serverURL = ''
 
 export const postForm = async (data) => {
     try {
