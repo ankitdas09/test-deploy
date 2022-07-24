@@ -5,7 +5,7 @@ const AdminModel = require('../models/Admin.model')
 
 const isAdmin = catchAsync(async (req, res, next) => {
     if (!req.isAuthenticated() && !req.user) {
-        next(new AppError('Not Authenticated!', 403))
+        next(new AppError('Not Authenticated!', 401))
         return
     }
     const User = await EndUserModel.findOne({ email: req.user._json.email })
