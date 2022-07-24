@@ -6,9 +6,8 @@ const isAuthenticated = catchAsync(async (req, res, next) => {
         next(new AppError('Not Authenticated', 403))
         return
     }
-    const Users = await EndUserModel.find()
-    const emails = Users.map(user => user.email)
-    if (!emails.includes(req.user._json.email)) {
+    const User = await EndUserModel.findOne({ email: req.user._json.email })
+    if (!User) {
         next(new AppError('Not Valid User', 403))
         return
     }
