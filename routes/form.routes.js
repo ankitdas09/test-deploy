@@ -11,6 +11,7 @@ router.post('/', isAuthenticated, catchAsync(FormController.PostNewForm))
 
 router.get('/schema', isAdmin, catchAsync(FormController.getCurrentSchema))
 
+// POST -> PUT
 router.post('/schema', catchAsync(FormController.updateSchema))
 
 router.get('/all', isAdmin, catchAsync(FormController.getAllForms))

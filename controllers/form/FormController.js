@@ -12,17 +12,21 @@ const indexSchemaValidation = require('../../models/validationSchemas/IndexValid
 const calculate = require('../../calculate')
 
 exports.PostNewForm = async (req, res, next) => {
+    // CREATE NEW FORM
     const value = await patientSchemaValidation.validateAsync(req.body)
     const newForm = new FormModel(value)
     const schema = await SchemaModel.findOne()
     await newForm.save()
+    // INCREMENT USER SUBMITTED NUMBER
     const user = await EndUserModel.findOne({ email: req.user._json.email })
     let submitted = user.submitted + 1
     await EndUserModel.findByIdAndUpdate(user._id, { submitted: submitted })
+    // CALCULATE RESULT AND SAVE
     const index = calculate(newForm, schema)
     const toSend = { ...newForm['_doc'], index: index }
     const newResult = new ResultModel({ value: index })
     await newResult.save()
+
     res.json(toSend)
 }
 
