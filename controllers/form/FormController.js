@@ -1,8 +1,4 @@
-const Joi = require('joi')
-const isAuthenticated = require('../../middleware/isAuthenticated.middleware')
 const AppError = require('../../utils/AppError')
-const catchAsync = require('../../utils/catchAsync')
-const isAdmin = require('../../middleware/isAdmin.middleware')
 const FormModel = require('../../models/Form.model')
 const SchemaModel = require('../../models/Schema.model')
 const EndUserModel = require('../../models/EndUser.model')
@@ -11,14 +7,14 @@ const patientSchemaValidation = require('../../models/validationSchemas/PatientV
 const indexSchemaValidation = require('../../models/validationSchemas/IndexValidationSchema')
 const calculate = require('../../calculate')
 
-exports.PostNewForm = async (req, res, next) => {
+exports.postNewForm = async (req, res, next) => {
     // CREATE NEW FORM
     const value = await patientSchemaValidation.validateAsync(req.body)
     const newForm = new FormModel(value)
     const schema = await SchemaModel.findOne()
     await newForm.save()
     // INCREMENT USER SUBMITTED NUMBER
-    const user = await EndUserModel.findOne({ email: req.user._json.email })
+    const user = await EndUserModel.findOne({ email: value.email })
     let submitted = user.submitted + 1
     await EndUserModel.findByIdAndUpdate(user._id, { submitted: submitted })
     // CALCULATE RESULT AND SAVE

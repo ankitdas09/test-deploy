@@ -5,10 +5,6 @@ const FormSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    intercept: {
-        type: Number,
-        required: true
-    },
     heartRate: {
         type: Number,
         required: true
@@ -26,15 +22,6 @@ const FormSchema = mongoose.Schema({
         type: Number,
         required: true
     }, gender: {
-        type: Number,
-        min: 0,
-        max: 1,
-        validate: {
-            validator: Number.isInteger,
-            message: '{VALUE} is not an integer value'
-        },
-        required: true
-    }, sinusRhythm: {
         type: Number,
         min: 0,
         max: 1,

@@ -7,7 +7,7 @@ const FormController = require('../controllers/form/FormController')
 
 router.get('/', isAdmin, catchAsync(FormController.getAllForms))
 
-router.post('/', isAuthenticated, catchAsync(FormController.PostNewForm))
+router.post('/', catchAsync(FormController.postNewForm))
 
 router.get('/schema', isAdmin, catchAsync(FormController.getCurrentSchema))
 

@@ -21,73 +21,37 @@ const CoeffSchema = mongoose.Schema({
     }, age: {
         type: Number,
         required: true
-    }, gender0: {
+    }, gender: {
         type: Number,
         required: true
-    }, gender1: {
+    }, atrialFibrillation: {
         type: Number,
         required: true
-    }, sinusRhythm0: {
+    }, diabetes: {
         type: Number,
         required: true
-    }, sinusRhythm1: {
+    }, hyperTension: {
         type: Number,
         required: true
-    }, atrialFibrillation0: {
+    }, chronicKidneyDisease: {
         type: Number,
         required: true
-    }, atrialFibrillation1: {
+    }, acei: {
         type: Number,
         required: true
-    }, diabetes0: {
+    }, mra: {
         type: Number,
         required: true
-    }, diabetes1: {
+    }, diuretic: {
         type: Number,
         required: true
-    }, hyperTension0: {
+    }, statin: {
         type: Number,
         required: true
-    }, hyperTension1: {
+    }, pulmonaryEdema: {
         type: Number,
         required: true
-    }, chronicKidneyDisease0: {
-        type: Number,
-        required: true
-    }, chronicKidneyDisease1: {
-        type: Number,
-        required: true
-    }, acei0: {
-        type: Number,
-        required: true
-    }, acei1: {
-        type: Number,
-        required: true
-    }, mra0: {
-        type: Number,
-        required: true
-    }, mra1: {
-        type: Number,
-        required: true
-    }, diuretic0: {
-        type: Number,
-        required: true
-    }, diuretic1: {
-        type: Number,
-        required: true
-    }, statin0: {
-        type: Number,
-        required: true
-    }, statin1: {
-        type: Number,
-        required: true
-    }, pulmonaryEdema0: {
-        type: Number,
-        required: true
-    }, pulmonaryEdema1: {
-        type: Number,
-        required: true
-    },
+    }
 })
 
 const SchemaModel = mongoose.model('Schema', CoeffSchema)

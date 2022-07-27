@@ -1,22 +1,21 @@
 const calculate = (data, schema) => {
     const calculatedDataObject = {
-        "intercept": schema.intercept * data.intercept,
+        "intercept": schema.intercept,
         "heartRate": schema.heartRate * data.heartRate,
         "RVDysfunction": schema.RVDysfunction * data.RVDysfunction,
         "eGFR": schema.eGFR * data.eGFR,
         "ProBNP": schema.ProBNP * data.ProBNP,
         "age": schema.age * data.age,
-        "gender": data.gender === 0 ? schema.gender0 : schema.gender1,
-        "sinusRhythm": data.sinusRhythm === 0 ? schema.sinusRhythm0 : schema.sinusRhythm1,
-        "atrialFibrillation": data.atrialFibrillation === 0 ? schema.atrialFibrillation0 : schema.atrialFibrillation1,
-        "diabetes": data.diabetes === 0 ? schema.diabetes0 : schema.diabetes1,
-        "hyperTension": data.hyperTension === 0 ? schema.hyperTension0 : schema.hyperTension1,
-        "chronicKidneyDisease": data.chronicKidneyDisease === 0 ? schema.chronicKidneyDisease0 : schema.chronicKidneyDisease1,
-        "acei": data.acei === 0 ? schema.acei0 : schema.acei1,
-        "mra": data.mra === 0 ? schema.mra0 : schema.mra1,
-        "diuretic": data.diuretic === 0 ? schema.diuretic0 : schema.diuretic1,
-        "statin": data.statin === 0 ? schema.statin0 : schema.statin1,
-        "pulmonaryEdema": data.pulmonaryEdema === 0 ? schema.pulmonaryEdema0 : schema.pulmonaryEdema1,
+        "gender": data.gender * schema.gender,
+        "atrialFibrillation": data.atrialFibrillation * schema.atrialFibrillation,
+        "diabetes": data.diabetes * schema.diabetes,
+        "hyperTension": data.hyperTension * schema.hyperTension,
+        "chronicKidneyDisease": data.chronicKidneyDisease * schema.chronicKidneyDisease,
+        "acei": data.acei * schema.acei,
+        "mra": data.mra * schema.mra,
+        "diuretic": data.diuretic * schema.diuretic,
+        "statin": data.statin * schema.statin,
+        "pulmonaryEdema": data.pulmonaryEdema * schema.pulmonaryEdema,
     }
 
     const keys = Object.keys(calculatedDataObject)
@@ -25,10 +24,48 @@ const calculate = (data, schema) => {
         const val = calculatedDataObject[key]
         summation += val
     })
-    let pby1minusp = Math.exp((summation / 2.303))
+    let pby1minusp = Math.exp((summation))
     let onebyp = 1 + (1 / pby1minusp)
     let p = (1 / onebyp)
-    return p.toFixed(5)
+    // return Math.round((p + Number.EPSILON) * 1000) / 1000
+    return p.toFixed(3)
 
 }
 module.exports = calculate
+
+// const schema = {
+//     "intercept": -3.6277,
+//     "heartRate": 0.0086,
+//     "RVDysfunction": -0.305,
+//     "eGFR": -0.0093,
+//     "ProBNP": 0.000048936,
+//     "age": 0.0197,
+//     "gender": 0.3875,
+//     "atrialFibrillation": 1.518,
+//     "diabetes": -0.0765,
+//     "hyperTension": 0.3067,
+//     "chronicKidneyDisease": -0.0204,
+//     "acei": 0.5356,
+//     "mra": 1.53,
+//     "diuretic": 0.9998,
+//     "statin": 0.4138,
+//     "pulmonaryEdema": 0.6114
+// }
+// const data = {
+//     "heartRate": 78,
+//     "RVDysfunction": 2.1,
+//     "eGFR": 14,
+//     "ProBNP": 9361,
+//     "age": 74,
+//     "gender": 1,
+//     "atrialFibrillation": 0,
+//     "diabetes": 1,
+//     "hyperTension": 1,
+//     "chronicKidneyDisease": 1,
+//     "acei": 0,
+//     "mra": 0,
+//     "diuretic": 0,
+//     "statin": 1,
+//     "pulmonaryEdema": 1
+// }
+// console.log(calculate(data, schema))
