@@ -24,7 +24,7 @@ const Statistics = ({ results }) => {
                                     {results.positive}
                                 </strong>
                                 </p>
-                                <p className='lead'>Positive Submissions</p>
+                                <p className='lead'>HFpEF Positive</p>
                             </div>
                         </div>
                     </div>
@@ -35,7 +35,7 @@ const Statistics = ({ results }) => {
                                     {results.negative}
                                 </strong>
                                 </p>
-                                <p className='lead'>Negative Submissions</p>
+                                <p className='lead'>HFpEF Negative</p>
                             </div>
                         </div>
 

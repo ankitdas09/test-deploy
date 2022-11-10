@@ -81,7 +81,7 @@ const AdminPage = ({ user }) => {
                                 {error && error}
                             </p>
                             <div className="card-body">
-                                <h5 className="card-title">Update Schema for Index Calculation</h5>
+                                <h5 className="card-title">Update Schema</h5>
                                 <div className="mb-3">
                                     <div className="row">
                                         {keys && keys.map((key, idx) => {

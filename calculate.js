@@ -1,37 +1,38 @@
 const calculate = (data, schema) => {
-    const calculatedDataObject = {
-        "intercept": schema.intercept,
-        "heartRate": schema.heartRate * data.heartRate,
-        "RVDysfunction": schema.RVDysfunction * data.RVDysfunction,
-        "eGFR": schema.eGFR * data.eGFR,
-        "ProBNP": schema.ProBNP * data.ProBNP,
-        "age": schema.age * data.age,
-        "gender": data.gender * schema.gender,
-        "atrialFibrillation": data.atrialFibrillation * schema.atrialFibrillation,
-        "diabetes": data.diabetes * schema.diabetes,
-        "hyperTension": data.hyperTension * schema.hyperTension,
-        "chronicKidneyDisease": data.chronicKidneyDisease * schema.chronicKidneyDisease,
-        "acei": data.acei * schema.acei,
-        "mra": data.mra * schema.mra,
-        "diuretic": data.diuretic * schema.diuretic,
-        "statin": data.statin * schema.statin,
-        "pulmonaryEdema": data.pulmonaryEdema * schema.pulmonaryEdema,
-    }
+	const calculatedDataObject = {
+		intercept: schema.intercept,
+		heartRate: schema.heartRate * data.heartRate,
+		RVDysfunction: schema.RVDysfunction * data.RVDysfunction,
+		eGFR: schema.eGFR * data.eGFR,
+		ProBNP: schema.ProBNP * data.ProBNP,
+		age: schema.age * data.age,
+		gender: data.gender * schema.gender,
+		atrialFibrillation: data.atrialFibrillation * schema.atrialFibrillation,
+		diabetes: data.diabetes * schema.diabetes,
+		hyperTension: data.hyperTension * schema.hyperTension,
+		chronicKidneyDisease:
+			data.chronicKidneyDisease * schema.chronicKidneyDisease,
+		acei: data.acei * schema.acei,
+		mra: data.mra * schema.mra,
+		diuretic: data.diuretic * schema.diuretic,
+		statin: data.statin * schema.statin,
+		pulmonaryEdema: data.pulmonaryEdema * schema.pulmonaryEdema,
+	};
 
-    const keys = Object.keys(calculatedDataObject)
-    let summation = 0
-    keys.map(key => {
-        const val = calculatedDataObject[key]
-        summation += val
-    })
-    let pby1minusp = Math.exp((summation))
-    let onebyp = 1 + (1 / pby1minusp)
-    let p = (1 / onebyp)
-    // return Math.round((p + Number.EPSILON) * 1000) / 1000
-    return p.toFixed(3)
+	const keys = Object.keys(calculatedDataObject);
+	let summation = 0;
+	keys.map((key) => {
+		const val = calculatedDataObject[key];
+		summation += val;
+	});
+	let pby1minusp = Math.exp(summation);
+	let onebyp = 1 + 1 / pby1minusp;
+	let p = 1 / onebyp;
+	// return Math.round((p + Number.EPSILON) * 1000) / 1000
+	return p.toFixed(3);
+};
 
-}
-module.exports = calculate
+module.exports = calculate;
 
 // const schema = {
 //     "intercept": -3.6277,
